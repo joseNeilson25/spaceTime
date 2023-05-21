@@ -1,7 +1,6 @@
 import fastify from 'fastify'
 import cors from '@fastify/cors'
 import { memoriesRoutes } from './routes/memories'
-import 'dotenv/.config'
 import { authRoutes } from './routes/auth'
 import jwt from '@fastify/jwt'
 
