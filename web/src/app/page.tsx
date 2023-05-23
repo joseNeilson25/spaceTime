@@ -16,7 +16,7 @@ interface Memory {
   createdAt: string
 }
 
-export default async function Home() {  
+export default async function Home() {
   const isAuthenticated = cookies().has('token')
 
   if (!isAuthenticated) {
