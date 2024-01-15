@@ -54,6 +54,13 @@ export default async function MemoryPage(context: any) {
           {memories.content}
         </p>
       </div>
+      <Link
+        href={`/memories/upload/${memories.id}`}
+        className="flex items-center gap-2 text-sm text-gray-200 hover:text-gray-100"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        Editar
+      </Link>
     </div>
   );
 }
