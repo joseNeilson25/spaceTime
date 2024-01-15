@@ -59,7 +59,7 @@ export default async function Home() {
               href={`/memories/${memory.id}`}
               className="flex items-center gap-2 text-sm text-gray-200 hover:text-gray-100"
             >
-              Ler mais
+              Detalhes
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

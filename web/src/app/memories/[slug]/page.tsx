@@ -3,7 +3,7 @@ import { api } from "@/lib/api";
 import Image from "next/image";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Edit, LucideTrash, LucideTrash2, Trash, Trash2, Trash2Icon, TrashIcon } from "lucide-react";
 import dayjs from "dayjs";
 import ptBR from "dayjs/locale/pt-br";
 
@@ -32,13 +32,29 @@ export default async function MemoryPage(context: any) {
 
   return (
     <div className="flex flex-col gap-10 p-8">
-      <Link
-        href="/"
-        className="flex items-center gap-2 text-sm text-gray-200 hover:text-gray-100"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Voltar
-      </Link>
+      <div className="flex justify-between">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-sm text-gray-200 hover:text-gray-100"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Voltar
+        </Link>
+        <Link
+          href={`/memories/upload/${memories.id}`}
+          className="flex items-center gap-2 text-sm text-gray-200 hover:text-gray-100"
+        >
+          <Edit className="h-4 w-4" />
+          Editar
+        </Link>
+        <button
+          // onClick={deleteMemory}
+          className="flex items-center gap-2 text-sm text-gray-200 hover:text-gray-100"
+        >
+          <LucideTrash2 className="h-4 w-4" />
+          Exluir
+        </button>
+      </div>
       <div className="space-y-4">
         <time className="-ml-8 flex items-center gap-2 text-sm text-gray-100 before:h-px before:w-5 before:bg-gray-50">
           {dayjs(memories.createdAt).format("D[ de ]MMMM[, ]YYYY")}
@@ -54,13 +70,6 @@ export default async function MemoryPage(context: any) {
           {memories.content}
         </p>
       </div>
-      <Link
-        href={`/memories/upload/${memories.id}`}
-        className="flex items-center gap-2 text-sm text-gray-200 hover:text-gray-100"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Editar
-      </Link>
     </div>
   );
 }
