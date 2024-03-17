@@ -18,36 +18,38 @@ export function UpdateMemoryForm({ memory }: { memory: Memory }) {
   const [content, setContent] = useState(memory.content);
 
   const memoryData = memory;
+  var toggleImg: boolean;
 
   useEffect(() => {
     console.log(memoryData);
     if (memoryData) {
       console.log(memoryData.id);
     }
+    toggleImg = false
+
+    
   }, [memoryData])
 
   async function handleUpdateMemory(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const token = Cookie.get("token");
-    console.log(token);
 
     const formData = new FormData(event.currentTarget);
     const fileToUpload = formData.get("coverUrl");
+    let coverUrl = memoryData.coverUrl;
 
-    let coverUrl = memoryData.coverUrl
-
-    if (fileToUpload) {
-      const uploadFormData = new FormData();
-      uploadFormData.set("file", fileToUpload);
-      const uploadResponse = await api.post("/upload", uploadFormData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      coverUrl = uploadResponse.data.fileUrl;
+    if(toggleImg === true){
+      if (fileToUpload) {
+        const uploadFormData = new FormData();
+        uploadFormData.set("file", fileToUpload);
+        const uploadResponse = await api.post("/upload", uploadFormData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        coverUrl = uploadResponse.data.fileUrl;
+      }
     }
-
-    console.log(token);
 
     await api.patch(
       `/memories/${memoryData.id}`,
@@ -68,10 +70,15 @@ export function UpdateMemoryForm({ memory }: { memory: Memory }) {
     setContent(event.target.value);
   };
 
+  function toggleImgStats(){
+    toggleImg = true
+  }
+
   return (
     <form onSubmit={handleUpdateMemory} className="flex flex-1 flex-col gap-2">
       <div className="flex items-center gap-4">
         <label
+          onClick={toggleImgStats} 
           htmlFor="media"
           className="flex cursor-pointer items-center gap-1.5 text-sm text-gray-200 hover:text-gray-100"
         >
