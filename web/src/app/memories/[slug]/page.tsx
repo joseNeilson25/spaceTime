@@ -1,22 +1,19 @@
+"use client";
+
 import { EmptyMemories } from "@/components/EmptyMemories";
 import { api } from "@/lib/api";
 import Image from "next/image";
-import { cookies } from "next/headers";
+import Cookie from "js-cookie";
 import Link from "next/link";
-import { ArrowLeft, Edit, LucideTrash, LucideTrash2, Trash, Trash2, Trash2Icon, TrashIcon } from "lucide-react";
+import { ArrowLeft, Edit, LucideTrash2 } from "lucide-react";
 import dayjs from "dayjs";
 import ptBR from "dayjs/locale/pt-br";
+import { useEffect } from "react";
 
 dayjs.locale(ptBR);
 
 export default async function MemoryPage(context: any) {
-  const isAuthenticated = cookies().has("token");
-
-  if (!isAuthenticated) {
-    return <EmptyMemories />;
-  }
-
-  const token = cookies().get("token")?.value;
+  const token = Cookie.get("token");
 
   const { params } = context;
 
@@ -29,6 +26,14 @@ export default async function MemoryPage(context: any) {
   });
 
   const memories = response.data;
+
+  function deleteMemory() {
+    api.delete(`/memories/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
 
   return (
     <div className="flex flex-col gap-10 p-8">
@@ -47,13 +52,14 @@ export default async function MemoryPage(context: any) {
           <Edit className="h-4 w-4" />
           Editar
         </Link>
-        <button
-          // onClick={deleteMemory}
+        <Link
+          href={`/`}
+          onClick={deleteMemory}
           className="flex items-center gap-2 text-sm text-gray-200 hover:text-gray-100"
         >
           <LucideTrash2 className="h-4 w-4" />
-          Exluir
-        </button>
+          Excluir
+        </Link>
       </div>
       <div className="space-y-4">
         <time className="-ml-8 flex items-center gap-2 text-sm text-gray-100 before:h-px before:w-5 before:bg-gray-50">
